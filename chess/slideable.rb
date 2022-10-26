@@ -33,15 +33,15 @@ module Slideable
     def grow_unblocked_moves_in_dir(dy,dx)
         res = []
         cur_y, cur_x = pos
-        loop do 
+        loop do
             cur_y, cur_x = cur_y + dy, cur_x + dx
-            pos = [cur_y, cur_x]
-            break unless board.valid_pos?(pos)
-            if board[pos].is_a?(NullPiece)
-                res << pos
+            new_pos = [cur_y, cur_x]
+            break unless board.valid_pos?(new_pos)
+            if board[new_pos].is_a?(NullPiece)
+                res << new_pos
             else
-                if board[pos].color != self.color
-                    res << pos
+                if board[new_pos].color != self.color
+                    res << new_pos
                 end
                 break
             end
@@ -59,11 +59,11 @@ end
         #     #shovel new_pos into res
         #     #recalculuate new_pos by incrementing with dx, dy
         # end
-        
+
         # if board[new_pos].color != board[pos].color  # look at self
         #     res << new_pos
         # end
-        
+
         # return res
 
 #generate an array of all possible moves based on:

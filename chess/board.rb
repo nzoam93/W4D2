@@ -64,7 +64,7 @@ class Board
         end
         if self.valid_pos?(end_pos)
             self[end_pos] = piece
-            piece.pos = end_pos 
+            piece.pos = end_pos
             self[start_pos] = @null_piece
         end
         render
@@ -104,12 +104,12 @@ class Board
     attr_accessor :null_piece
 end
 
-# b = Board.new
+b = Board.new
 
-# start_pos = [0,3]
-# end_pos = [3,3]
+start_pos = [1,6]
+end_pos = [4,6]
 
-# b.move_piece(start_pos, end_pos)
-# print b[[3,3]].moves
+b.move_piece(start_pos, end_pos)
+p b[[4,6]].moves
 
-# b.render
+b.render
