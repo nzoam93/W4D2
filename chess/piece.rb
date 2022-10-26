@@ -7,7 +7,9 @@ class Piece
         @pos = []
         @value = value
     end
+
     
+
 
 
 
@@ -28,7 +30,7 @@ class Piece
     # def pos=(val)
 
     # end
-    
+
     # def Symbol
 
     # end

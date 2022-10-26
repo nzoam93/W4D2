@@ -8,3 +8,5 @@ require_relative "king.rb"
 require_relative "queen.rb"
 require_relative "knight.rb"
 require_relative "rook.rb"
+
+#are we supposed to include slideable and stepable modules? Even though they are included in the piece class?

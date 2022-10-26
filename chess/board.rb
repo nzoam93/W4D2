@@ -1,5 +1,5 @@
 require_relative "require.rb"
-class Board 
+class Board
     attr_accessor :rows
     def initialize
         @rows = Array.new(8) {Array.new(8)}
@@ -8,11 +8,11 @@ class Board
         # @piece = Piece.new()
         # @null_piece = NullPiece
     end
-    
+
     def define_pieces
     end
-    
-    def populate     
+
+    def populate
         #pieces on row 0
         self[[0,0]]= Rook.new("white", self, [0,0],"r")
         self[[0,1]]= Knight.new("white", self, [0,1], "k")
@@ -31,9 +31,9 @@ class Board
         #null pieces on rows 2-5
         (2..5).each do |idx|
             (0..7).each do |idx2|
-                @rows[idx][idx2] = NullPiece.new("white", self, [idx, idx2],".")
+                @rows[idx][idx2] = NullPiece.new(nil, self, [idx, idx2],".")
             end
-        end 
+        end
 
         #pawns on row 6
         @rows[6].each_with_index do |ele, idx|
@@ -63,19 +63,28 @@ class Board
     def move_piece(start_pos, end_pos)
         piece = self[start_pos]
         i_1, j_1 = start_pos
-        i_2, j_2 = end_pos
-        if @rows[i_1][j_1] == nil 
+        if @rows[i_1][j_1] == nil
             raise "There is no piece there"
         end
-        if ( i_2 < 0 || i_2 > 7 )|| (j_2 < 0 || j_2 > 7)
+        self.valid_pos?(end_pos)
+        self[end_pos] = piece
+        self[start_pos] = NullPiece.new(nil, self, [i_1, j_1],".")
+        render
+    end
+
+    def valid_pos?(end_pos)
+        i, j = end_pos
+        if ( i < 0 || i > 7 )|| (j < 0 || j > 7)
             raise "Cannot move there"
         end
-        # if !self.valid_moves  # write this method later
-        #     raise "Cannot move there"
-        # end
-        self[end_pos] = piece
-        self[start_pos] = NullPiece.new("white", self, [idx, idx2],".")
-        render
+    end
+
+    def teammate?(end_pos)
+        if board[end_pos].color != self.color
+            return false
+        else
+            return true
+        end
     end
 
     def render
@@ -95,9 +104,9 @@ end
 
 b = Board.new
 
-# start_pos = [0,0]
-# end_pos = [7,0]
-# b.move_piece(start_pos, end_pos)
+start_pos = [0,3]
+end_pos = [3,3]
+b.move_piece(start_pos, end_pos)
+b[[3,3]].moves
 
-
-
+b.render
