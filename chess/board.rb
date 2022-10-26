@@ -1,4 +1,5 @@
 require_relative "require.rb"
+require 'colorize'
 class Board
     attr_accessor :rows
     def initialize
@@ -93,7 +94,7 @@ class Board
         puts "-------------------------"
         (0...@rows.length).each do |i|
             (0...@rows.length).each do |j|
-                    print @rows[i][j].value
+                    print @rows[i][j]
             end
             puts
         end
@@ -104,12 +105,12 @@ class Board
     attr_accessor :null_piece
 end
 
-b = Board.new
+# b = Board.new
 
-start_pos = [1,6]
-end_pos = [4,6]
+# start_pos = [1,6]
+# end_pos = [4,6]
 
-b.move_piece(start_pos, end_pos)
-p b[[4,6]].moves
+# b.move_piece(start_pos, end_pos)
+# p b[[4,6]].moves
 
-b.render
+# b.render

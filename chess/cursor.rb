@@ -1,4 +1,8 @@
 require "io/console"
+require_relative "board"
+require "colorize"
+require 'colorized_string'
+
 
 KEYMAP = {
   " " => :space,
@@ -36,7 +40,10 @@ class Cursor
 
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
-    @board = board
+    # String.disable_colorization = false # enable colorization
+    @board = board 
+    @board[cursor_pos].value.colorize(:blue)
+
   end
 
   def get_input
@@ -76,7 +83,7 @@ class Cursor
   end
 
   def handle_key(key)
-    case x
+    case key
     when key == :return || key == :space
         @cursor_pos
     when :left
@@ -101,10 +108,20 @@ class Cursor
   def update_pos(diff)
     new_x = @cursor_pos[0] + diff[0]
     new_y = @cursor_pos[1] + diff[1]
-    if Board.valid_pos?([new_x,new_y])
-        @cursor_pos[0] = [new_x,new_y]
+    if @board.valid_pos?([new_x,new_y])
+        @cursor_pos = [new_x,new_y]
     end
   end
 
   
+end
+ b = Board.new
+# b = Cursor.new([0,0], c )
+# puts @cursor_pos.colorize(:blue)
+# puts b[[0,0]].value.colorize(:blue)
+# @cursor_pos = [4,4]
+cursor_instance = Cursor.new([0,0],b)
+loop do
+  b.render
+  cursor_instance.get_input
 end
