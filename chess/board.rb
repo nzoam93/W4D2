@@ -3,13 +3,10 @@ class Board
     attr_accessor :rows
     def initialize
         @rows = Array.new(8) {Array.new(8)}
+        @null_piece = NullPiece.instance
         populate
         render
         # @piece = Piece.new()
-        # @null_piece = NullPiece
-    end
-
-    def define_pieces
     end
 
     def populate
@@ -31,7 +28,7 @@ class Board
         #null pieces on rows 2-5
         (2..5).each do |idx|
             (0..7).each do |idx2|
-                @rows[idx][idx2] = NullPiece.new(nil, self, [idx, idx2],".")
+                @rows[idx][idx2] = @null_piece
             end
         end
 
@@ -62,25 +59,30 @@ class Board
 
     def move_piece(start_pos, end_pos)
         piece = self[start_pos]
-        i_1, j_1 = start_pos
-        if @rows[i_1][j_1] == nil
+        if self[start_pos].is_a?(NullPiece)
             raise "There is no piece there"
         end
-        self.valid_pos?(end_pos)
-        self[end_pos] = piece
-        self[start_pos] = NullPiece.new(nil, self, [i_1, j_1],".")
+        if self.valid_pos?(end_pos)
+            self[end_pos] = piece
+            piece.pos = end_pos 
+            self[start_pos] = @null_piece
+        end
         render
     end
 
     def valid_pos?(end_pos)
-        i, j = end_pos
-        if ( i < 0 || i > 7 )|| (j < 0 || j > 7)
-            raise "Cannot move there"
-        end
+        # i, j = end_pos
+        # if ( i < 0 || i > 7 || j < 0 || j > 7)
+        #     # raise "Cannot move there"
+        #     return false
+        # else
+        #     return true
+        # end
+        end_pos.all? {|ele| ele.between?(0,7)}
     end
 
     def teammate?(end_pos)
-        if board[end_pos].color != self.color
+        if self[end_pos].color != self[pos].color  # look at self
             return false
         else
             return true
@@ -91,7 +93,7 @@ class Board
         puts "-------------------------"
         (0...@rows.length).each do |i|
             (0...@rows.length).each do |j|
-                print @rows[i][j].value
+                    print @rows[i][j].value
             end
             puts
         end
@@ -102,11 +104,12 @@ class Board
     attr_accessor :null_piece
 end
 
-b = Board.new
+# b = Board.new
 
-start_pos = [0,3]
-end_pos = [3,3]
-b.move_piece(start_pos, end_pos)
-b[[3,3]].moves
+# start_pos = [0,3]
+# end_pos = [3,3]
 
-b.render
+# b.move_piece(start_pos, end_pos)
+# print b[[3,3]].moves
+
+# b.render

@@ -1,7 +1,14 @@
 require_relative 'piece'
+require 'singleton'
 class NullPiece < Piece
-    attr_accessor :color, :board, :pos, :value
-    def initialize(color, board, pos, value)
-        super
+    include Singleton   
+    attr_reader :value
+    def initialize
+
+        @value = "."
+    end
+
+    def empty?
+        true
     end
 end
