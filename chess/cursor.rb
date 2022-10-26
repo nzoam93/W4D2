@@ -2,6 +2,7 @@ require "io/console"
 require_relative "board"
 require "colorize"
 require 'colorized_string'
+require_relative 'display'
 
 
 KEYMAP = {
@@ -115,13 +116,15 @@ class Cursor
 
   
 end
- b = Board.new
+b = Board.new
+d = Display.new()
+
 # b = Cursor.new([0,0], c )
 # puts @cursor_pos.colorize(:blue)
 # puts b[[0,0]].value.colorize(:blue)
 # @cursor_pos = [4,4]
 cursor_instance = Cursor.new([0,0],b)
 loop do
-  b.render
+  d.render
   cursor_instance.get_input
 end
