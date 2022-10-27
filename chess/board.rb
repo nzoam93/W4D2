@@ -94,7 +94,7 @@ class Board
         puts "-------------------------"
         (0...@rows.length).each do |i|
             (0...@rows.length).each do |j|
-                    print @rows[i][j]
+                    print @rows[i][j].value
             end
             puts
         end

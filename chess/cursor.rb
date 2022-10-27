@@ -2,7 +2,6 @@ require "io/console"
 require_relative "board"
 require "colorize"
 require 'colorized_string'
-require_relative 'display'
 
 
 KEYMAP = {
@@ -37,14 +36,14 @@ MOVES = {
 
 class Cursor
 
-  attr_reader :cursor_pos, :board
+  attr_accessor :cursor_pos, :board, :toggle_selected
 
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
     # String.disable_colorization = false # enable colorization
-    @board = board 
-    @board[cursor_pos].value.colorize(:blue)
-
+    @board = board
+    # @board[cursor_pos].value.colorize(:blue)
+    @toggle_selected = true
   end
 
   def get_input
@@ -86,7 +85,12 @@ class Cursor
   def handle_key(key)
     case key
     when key == :return || key == :space
-        @cursor_pos
+        if @toggle_selected == true
+            @toggle_selected = false
+        else
+            @toggle_selected = true
+        end
+        return @cursor_pos
     when :left
         update_pos(MOVES[:left])
         return nil
@@ -112,19 +116,13 @@ class Cursor
     if @board.valid_pos?([new_x,new_y])
         @cursor_pos = [new_x,new_y]
     end
+    return @cursor_pos
   end
 
-  
+
 end
-b = Board.new
-d = Display.new()
 
 # b = Cursor.new([0,0], c )
 # puts @cursor_pos.colorize(:blue)
 # puts b[[0,0]].value.colorize(:blue)
 # @cursor_pos = [4,4]
-cursor_instance = Cursor.new([0,0],b)
-loop do
-  d.render
-  cursor_instance.get_input
-end
